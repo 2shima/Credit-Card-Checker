@@ -29,7 +29,7 @@ function validateCred(credNum) {
     for (let i = credNum.length - 1; i >= 0; i -= 2) {
         total += credNum[i];
     }
-    for (let i = credNumlength - 2; i >= 0; i -= 2) {
+    for (let i = credNum.length - 2; i >= 0; i -= 2) {
         let current = credNum[i] * 2;
         if (current > 9) {
             current -= 9;
@@ -50,9 +50,36 @@ function findInvalidCards(creditNumArray) {
 }
 
 function idInvalidCardCompanies(invalidArray) {
-
+    let companies = [];
+    for (let invalid of invalidArray) {
+        switch (invalid[0]) {
+            case 3:
+                if (companies.find(company => company === "Amex (American Express)") === undefined) {
+                    companies.push("Amex (American Express)");
+                }
+                break;
+            case 4:
+                if (companies.find(company => company === "Visa") === undefined) {
+                    companies.push("Visa");
+                }
+                break;
+            case 5:
+                if (companies.find(company => company === "Mastercard") === undefined) {
+                    companies.push("Mastercard");
+                }
+                break;
+            case 6:
+                if (companies.find(company => company === "Discover") === undefined) {
+                    companies.push("Discover");
+                }
+                break;
+            default:
+                console.log("Company not found.");
+                break;
+        }
+    }
+    return companies;
 }
 
-
-
-
+let invalids = findInvalidCards(batch);
+console.log(idInvalidCardCompanies(invalids));
