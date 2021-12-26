@@ -24,11 +24,62 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 
 
 // Add your functions below:
+function validateCred(credNum) {
+    let total = 0;
+    for (let i = credNum.length - 1; i >= 0; i -= 2) {
+        total += credNum[i];
+    }
+    for (let i = credNum.length - 2; i >= 0; i -= 2) {
+        let current = credNum[i] * 2;
+        if (current > 9) {
+            current -= 9;
+        }
+        total += current;
+    }
+    return (total % 10 === 0);
+}
 
+function findInvalidCards(creditNumArray) {
+    let invalidNums = [];
+    for (let credCard of creditNumArray) {
+        if (!validateCred(credCard)) {
+            invalidNums.push(credCard);
+        }
+    }
+    return invalidNums;
+}
 
+function idInvalidCardCompanies(invalidArray) {
+    let companies = [];
+    for (let invalid of invalidArray) {
+        switch (invalid[0]) {
+            case 3:
+                if (companies.find(company => company === "Amex (American Express)") === undefined) {
+                    companies.push("Amex (American Express)");
+                }
+                break;
+            case 4:
+                if (companies.find(company => company === "Visa") === undefined) {
+                    companies.push("Visa");
+                }
+                break;
+            case 5:
+                if (companies.find(company => company === "Mastercard") === undefined) {
+                    companies.push("Mastercard");
+                }
+                break;
+            case 6:
+                if (companies.find(company => company === "Discover") === undefined) {
+                    companies.push("Discover");
+                }
+                break;
+            default:
+                console.log("Company not found.");
+                break;
+        }
+    }
+    return companies;
+}
 
-
-
-
-
-
+let invalids = findInvalidCards(batch);
+console.log(idInvalidCardCompanies(invalids));
